@@ -10,12 +10,12 @@ on:
   push:
     branches:
       - main
-f
+
 permissions:
     contents: write
     packages: write
 
-
+    
 before:
   hooks:
     # You may remove this if you don't use go modules.
