@@ -1,7 +1,9 @@
 on:
-  release:
-    types: [created]
-
+  push:
+    branches:
+      - main
+      - beta
+      - alpha
 permissions:
     contents: write
     packages: write
