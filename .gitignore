@@ -1,3 +1,5 @@
 vendor
 bin.7z
 bin
+
+dist/
