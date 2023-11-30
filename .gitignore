@@ -1,5 +1,5 @@
 vendor
 bin.7z
 bin
-
+.goreleaser.yaml
 dist/
