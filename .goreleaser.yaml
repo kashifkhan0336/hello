@@ -17,6 +17,7 @@ builds:
       - windows
     goarch:
       - amd64  # Exclude arm architecture
+project_name: partywatch
 
 archives:
   - format: tar.gz
