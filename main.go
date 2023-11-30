@@ -103,7 +103,7 @@ func handlePlaybackEvent(eventName string, sub *centrifuge.Subscription) {
 	pos, err := GetPositionValue()
 	s := strconv.FormatFloat(pos, 'f', -1, 64)
 	if err != nil {
-		fmt.Println("failed to get position")
+		fmt.Println("failed to get po")
 		return
 	}
 	switch eventName {
