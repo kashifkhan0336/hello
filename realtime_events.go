@@ -76,15 +76,15 @@ func configureSubscriptionEvents(Subscription *centrifuge.Subscription, pipe *np
 				Command: []interface{}{"set_property", "time-pos", event.Data},
 			})
 		}
-		if event.Event == "sync" && !host {
-			fmt.Printf("Syncing video at %s", event.Data)
-			sendRequest(pipe, MPVRequest{
-				Command: []interface{}{"show_text", "Syncing"},
-			})
-			sendRequest(pipe, MPVRequest{
-				Command: []interface{}{"set_property", "time-pos", event.Data},
-			})
-		}
+		// if event.Event == "sync" && !host {
+		// 	fmt.Printf("Syncing video at %s", event.Data)
+		// 	sendRequest(pipe, MPVRequest{
+		// 		Command: []interface{}{"show_text", "Syncing"},
+		// 	})
+		// 	sendRequest(pipe, MPVRequest{
+		// 		Command: []interface{}{"set_property", "time-pos", event.Data},
+		// 	})
+		// }
 		// fmt.Println(event.Event)
 		// fmt.Println(event.Data)
 		// fmt.Println(event.Name)
