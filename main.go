@@ -5,12 +5,14 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"net"
 	"os"
 	"strconv"
 	"strings"
 	"time"
 
 	"github.com/goccy/go-json"
+	"github.com/pterm/pterm"
 
 	"github.com/centrifugal/centrifuge-go"
 	"gopkg.in/natefinch/npipe.v2"
@@ -118,25 +120,47 @@ func handlePlaybackEvent(eventName string, sub *centrifuge.Subscription) {
 	}
 
 }
-
-func main() {
-
-	args := os.Args[1:]
-	fmt.Println(args)
-	fmt.Println(len(args))
-	if len(args) == 1 {
-		if args[0] == "host" {
-			fmt.Println("hosting!")
-			host = true
+func localAddresses() {
+	ifaces, err := net.Interfaces()
+	if err != nil {
+		log.Print(fmt.Errorf("localAddresses: %v", err.Error()))
+		return
+	}
+	for _, i := range ifaces {
+		addrs, err := i.Addrs()
+		if err != nil {
+			log.Print(fmt.Errorf("localAddresses: %v", err.Error()))
+			continue
+		}
+		for _, a := range addrs {
+			log.Printf("%v %v\n", i.Name, a)
 		}
 	}
-	println(host)
+}
+func main() {
+
+	options := []string{"host", "join"}
+	h := pterm.DefaultInteractiveSelect.WithOptions(options)
+	h.DefaultText = "It's not really a choice if you're Maaz"
+	selectedOption, _ := h.Show()
+
+	if selectedOption == "host" {
+		host = true
+	}
+	t := pterm.DefaultInteractiveTextInput.WithMultiLine(false)
+	t.DefaultText = "IP Address "
+	t.DefaultValue = "26.128.237.142"
+	ipAddr, _ := t.Show()
+
+	pterm.DefaultArea.Clear()
+	//pterm.Info.Printfln("Selected option: %s", pterm.Green(selectedOption))
 	InitializeVideo()
 	pipe, err := InitializeVideoIpc()
 	if err != nil {
 		log.Fatal("Can't connect mpv ipc")
 	}
-	client := InitializeClient()
+
+	client := InitializeClient(ipAddr)
 	defer client.Close()
 	configureClientEvents(client)
 
